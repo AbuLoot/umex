@@ -20,7 +20,7 @@
     </div>
   </div><br>
 
-  <form action="/admin/options/{{ $option->id }}/{{ $lang }}" method="post">
+  <form action="/{{ $lang }}/admin/options/{{ $option->id }}" method="post">
     <input type="hidden" name="_method" value="PUT">
     {!! csrf_field() !!}
     <div class="form-group">

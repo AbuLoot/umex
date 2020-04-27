@@ -27,11 +27,17 @@ class OptionController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|min:2|max:80|unique:options',
+            'title' => 'required|min:1|max:100',
+            'data' => 'required|min:1|max:100',
         ]);
+
+        $titles = '';
+        $data = '';
+        $languages = '';
 
         $option = new Option;
         $titles[$request->lang]['title'] = $request->title;
+        $data[$request->lang]['data'] = $request->data;
         $languages[$request->lang] = $request->lang;
 
         $option->sort_id = ($request->sort_id > 0) ? $request->sort_id : $option->count() + 1;
