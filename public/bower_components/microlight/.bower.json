@@ -1,0 +1,40 @@
+{
+  "name": "microlight",
+  "version": "0.0.7",
+  "homepage": "https://github.com/asvd/microlight",
+  "authors": [
+    "Dmitry Prokashev <heliosframework@gmail.com>"
+  ],
+  "description": "highlights code in any language",
+  "main": "microlight.js",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "keywords": [
+    "syntax",
+    "highlight",
+    "highlighting",
+    "source",
+    "code",
+    "source code",
+    "snippet",
+    "code snippet"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "_release": "0.0.7",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.7",
+    "commit": "9b0b17e560262b092a90f7fd25b5045ac280b091"
+  },
+  "_source": "https://github.com/asvd/microlight.git",
+  "_target": "^0.0.7",
+  "_originalSource": "microlight",
+  "_direct": true
+}
