@@ -42,10 +42,12 @@ Route::group(['prefix' => '{lang}/admin', 'middleware' => ['auth', 'role:admin']
 });
 
 Route::redirect('/', '/'.app()->getLocale());
+Route::redirect('/home', '/'.app()->getLocale().'/home');
 
 Route::group(['prefix' => '{lang}'], function () {
 
     Auth::routes();
+    Route::get('/home', 'HomeController@index');
 
     // Pages
     Route::get('/', 'PageController@index');
