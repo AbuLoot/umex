@@ -31,9 +31,9 @@ class OptionController extends Controller
             'data' => 'required|min:1|max:100',
         ]);
 
-        $titles = '';
-        $data = '';
-        $languages = '';
+        $titles = [];
+        $data = [];
+        $languages = [];
 
         $option = new Option;
         $titles[$request->lang]['title'] = $request->title;
@@ -43,7 +43,7 @@ class OptionController extends Controller
         $option->sort_id = ($request->sort_id > 0) ? $request->sort_id : $option->count() + 1;
         $option->slug = (empty($request->slug)) ? str_slug($request->title) : $request->slug;
         $option->title = serialize($titles);
-        $option->data = $request->data;
+        $option->data = serialize($data);
         $option->lang = serialize($languages);
         $option->save();
 
