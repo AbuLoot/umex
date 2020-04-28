@@ -114,7 +114,7 @@ class ProductController extends Controller
         $this->validate($request, [
             'title' => 'required|min:2|max:80|unique:products_lang',
             'company_id' => 'required|numeric',
-            // 'categories_id' => 'required',
+            'barcode' => 'required',
             // 'images' => 'mimes:jpeg,jpg,png,svg,svgs,bmp,gif',
         ]);
 
@@ -196,6 +196,7 @@ class ProductController extends Controller
         $this->validate($request, [
             'title' => 'required|min:2|max:80',
             'company_id' => 'required|numeric',
+            'barcode' => 'required',
         ]);
 
         $product = Product::findOrFail($id);

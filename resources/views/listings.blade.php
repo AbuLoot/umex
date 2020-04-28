@@ -66,6 +66,7 @@
 
       <!-- Listings -->
       <div class="listings-container grid-layout-three">
+        <?php $i = 1; ?>
         @foreach($products_lang as $product_lang)
           <div class="listing-item">
             <a href="/{{ $lang }}/p/{{ $product_lang->slug }}" class="listing-img-container">
@@ -100,6 +101,9 @@
               </div>
             </div>
           </div>
+          <?php if ($i++ == 3) : $i = 1; ?>
+            <div class="clearfix"></div>
+          <?php endif; ?>
         @endforeach
       </div>
 

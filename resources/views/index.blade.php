@@ -10,10 +10,9 @@
 
 @section('content')
 
-    <!-- Slider -->
     @if($slide_items->isNotEmpty())
-      <div class="fullwidth-home-slider margin-bottom-0">
-        <!-- Slide -->
+      <!-- Slider -->
+      <div class="fullwidth-home-slider margin-bottom-40">
         @foreach($slide_items as $key => $slide_item)
           <div data-background-image="/img/slide/{{ $slide_item->image }}" class="item">
             <div class="container">
@@ -35,11 +34,10 @@
             </div>
           </div>
         @endforeach
-
       </div>
     @else
       <!-- Titlebar -->
-      <div class="parallax titlebar margin-bottom-50"
+      <div class="parallax titlebar margin-bottom-40"
         data-background="/img/bg-1-1500.jpg"
         data-color="#333333"
         data-color-opacity="0"
@@ -67,7 +65,7 @@
           <h2 class="headline centered margin-bottom-35">{{ __('Offer') }}</h2>
         </div>
 
-        <?php $mode_titles = unserialize($mode_recommended->title); ?>
+        <?php $i = 1; $mode_titles = unserialize($mode_recommended->title); ?>
         @foreach($mode_recommended->products->take(6) as $product)
           <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
           <div class="col-sm-6 col-md-4">
@@ -106,6 +104,9 @@
               </div>
             </div>
           </div>
+          <?php if ($i++ == 3) : $i = 1; ?>
+            <div class="clearfix"></div>
+          <?php endif; ?>
         @endforeach
 
         <div class="col-sm-12 col-md-12 text-center">
