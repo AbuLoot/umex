@@ -68,42 +68,44 @@
         <?php $i = 1; $mode_titles = unserialize($mode_recommended->title); ?>
         @foreach($mode_recommended->products->take(6) as $product)
           <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
-          <div class="col-sm-6 col-md-4">
-            <div class="listing-item">
-              <a href="/{{ $lang }}/p/{{ $product_lang->slug }}" class="listing-img-container">
-                <div class="listing-badges">
-                  <span class="featured">{{ $mode_titles[$lang]['title'] }}</span>
-                  <span>{{ trans('statuses.condition.'.$product->condition) }}</span>
-                </div>
-                <div class="listing-img-content">
-                  <span class="listing-price">{{ $product_lang->price }}₸</span>
-                  <span class="like-icon with-tip" data-tip-content="Add to Bookmarks"></span>
-                </div>
-                <img src="/img/products/{{ $product->path.'/'.$product->image }}" alt="{{ $product_lang->title }}">
-              </a>
+          @if ($product_lang != null)
+            <div class="col-sm-6 col-md-4">
+              <div class="listing-item">
+                <a href="/{{ $lang }}/p/{{ $product_lang->slug }}" class="listing-img-container">
+                  <div class="listing-badges">
+                    <span class="featured">{{ $mode_titles[$lang]['title'] }}</span>
+                    <span>{{ trans('statuses.condition.'.$product->condition) }}</span>
+                  </div>
+                  <div class="listing-img-content">
+                    <span class="listing-price">{{ $product_lang->price }}₸</span>
+                    <span class="like-icon with-tip" data-tip-content="Add to Bookmarks"></span>
+                  </div>
+                  <img src="/img/products/{{ $product->path.'/'.$product->image }}" alt="{{ $product_lang->title }}">
+                </a>
 
-              <div class="listing-content">
-                <div class="listing-title">
-                  <h4><a href="/{{ $lang }}/p/{{ $product_lang->slug }}">{{ $product_lang->title }}</a></h4>
-                  <a href="#" class="listing-address popup-gmaps">
-                    <i class="fa fa-map-marker"></i> {{ $product_lang->characteristic }}
-                  </a>
-                </div>
-                <ul class="listing-features">
-                  @foreach ($product->options as $option)
-                    <?php $data = unserialize($option->data); ?>
-                    @if (in_array($data[$lang]['data'], ['Тип обьекта', 'Type of property', 'Количество комнат', 'Number of rooms', 'Комнаты', 'Rooms']))
-                      <?php $titles = unserialize($option->title); ?>
-                      <li>{{ $data[$lang]['data'] }} <span>{{ $titles[$lang]['title'] }}</span></li>
-                    @endif
-                  @endforeach
-                </ul>
-                <div class="listing-footer">
-                  <a href="#"><i class="fa fa-bank"></i> {{ $product->company->title }}</a>
+                <div class="listing-content">
+                  <div class="listing-title">
+                    <h4><a href="/{{ $lang }}/p/{{ $product_lang->slug }}">{{ $product_lang->title }}</a></h4>
+                    <a href="#" class="listing-address popup-gmaps">
+                      <i class="fa fa-map-marker"></i> {{ $product_lang->characteristic }}
+                    </a>
+                  </div>
+                  <ul class="listing-features">
+                    @foreach ($product->options as $option)
+                      <?php $data = unserialize($option->data); ?>
+                      @if (in_array($data[$lang]['data'], ['Тип обьекта', 'Type of property', 'Количество комнат', 'Number of rooms', 'Комнаты', 'Rooms']))
+                        <?php $titles = unserialize($option->title); ?>
+                        <li>{{ $data[$lang]['data'] }} <span>{{ $titles[$lang]['title'] }}</span></li>
+                      @endif
+                    @endforeach
+                  </ul>
+                  <div class="listing-footer">
+                    <a href="#"><i class="fa fa-bank"></i> {{ $product->company->title }}</a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          @endif
           <?php if ($i++ == 3) : $i = 1; ?>
             <div class="clearfix"></div>
           <?php endif; ?>
@@ -139,30 +141,6 @@
       </div>
     </section>
 
-    <!-- Most Popular Places -->
-    @if ($categories->isNotEmpty())
-      <section class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <h2 class="headline centered margin-bottom-25">{{ __('Popolar City') }}</h2>
-          </div>
-
-          @foreach ($categories as $key => $category)
-            <div class="col-sm-6 col-md-6">
-              <a href="/{{ $lang }}/c/{{ $category->slug.'/'.$category->id }}" class="img-box" data-background-image="/file-manager/{{ $category->image }}">
-                <div class="listing-badges">
-                  <span class="featured">{{ trans('statuses.category.'.$category->status) }}</span>
-                </div>
-                <div class="img-box-content visible">
-                  <h4>{{ $category->title }}</h4>
-                  <span>{{ __('Properties').': '.$category->products->count() }}</span>
-                </div>
-              </a>
-            </div>
-          @endforeach
-        </div>
-      </section>
-    @endif
 
     <!-- Advantages Section -->
     <?php $advantages = $section->firstWhere('slug', 'advantages'); ?>
@@ -178,7 +156,6 @@
 
       <div class="container">
         <div class="row">
-
           @foreach ($articles as $article)
             <div class="col-sm-6 col-md-4">
               <div class="blog-post">
@@ -190,8 +167,7 @@
               </div>
             </div>
           @endforeach
-
-          <div class="col-md-12 text-center">
+          <div class="col-md-12 text-center margin-top-25">
             <a href="/{{ $lang }}/i/{{ $pages->firstWhere('slug', 'news')->slug }}" class="button border">{{ $pages->firstWhere('slug', 'news')->title }}</a>
           </div>
         </div>

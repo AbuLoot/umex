@@ -209,7 +209,7 @@ class ProductController extends Controller
         $dirName = $product->path;
         $images = unserialize($product->images);
 
-        // Added new images
+        // Adding new images
         if ($request->hasFile('images')) {
 
             if ( ! file_exists('img/products/'.$product->company_id) OR empty($product->path)) {

@@ -31,62 +31,33 @@ class ShopController extends Controller
         return view('index', compact('page'));
     }
 
-    public function allCategoryProducts(Request $request, $category_slug)
+    public function brandProducts(Request $request, $company_slug)
     {
-        $category = Category::where('slug', $category_slug)->first();
-
-        $categories = $category->descendants()->pluck('id');
-
-        // Include the id of category itself
-        $categories[] = $category->getKey();
-
-        // Action operations
-        $actions = ['default' => 'id', 'low' => 'price', 'expensive' => 'price DESC', 'popular' => 'views DESC'];
-        $sort = ($request->session()->has('action')) ? $actions[session('action')] : 'id';
-
-        if ($request->ajax() AND isset($request->action)) {
-            $request->session()->put('action', $request->action);
-        }
-
-        // Option operations
-        if ($request->ajax() AND isset($request->options_id)) {
-            $request->session()->put('options', $request->options_id);
-            $request->session()->put('category_id', $category->id);
-        }
-
-        if ($request->ajax() AND empty($request->action) AND empty($request->options_id) OR session('category_id') != $category->id) {
-            $request->session()->forget('options');
-        }
-
-        if ($request->session()->has('options')) {
-
-            $options_id = session('options');
-            $products = Product::where('status', '<>', 0)->whereIn('category_id', $categories)->orderByRaw($sort)
-                ->whereHas('options', function ($query) use ($options_id) {
-                    $query->whereIn('option_id', $options_id);
-                })->paginate(24);
-        }
-        else {
-            $products = Product::where('status', '<>', 0)->whereIn('category_id', $categories)->orderByRaw($sort)
-                ->paginate(24);
-        }
-
-        if ($request->ajax()) {
-            return response()->json(view('products-render', ['products' => $products])->render());
-        }
-
-        $options = DB::table('products')
-            ->join('product_option', 'products.id', '=', 'product_option.product_id')
-            ->join('options', 'options.id', '=', 'product_option.option_id')
-            ->select('options.id', 'options.slug', 'options.title', 'options.data')
-            ->whereIn('category_id', $categories)
-            // ->where('products.status', '<>', 0)
+        $company = Company::where('slug', $company_slug)->firstOrFail();
+        $products = Product::where('status', '<>', 0)->where('company_id', $company->id)->paginate(18);
+        $category_list = DB::table('products')
+            ->join('categories', 'categories.id', '=', 'products.category_id')
+            ->select('categories.id', 'categories.slug', 'categories.title')
+            ->where('company_id', $company->id)
             ->distinct()
             ->get();
 
-        $grouped = $options->groupBy('data');
+        return view('products-brand')->with(['company' => $company, 'products' => $products, 'category_list' => $category_list]);
+    }
 
-        return view('products')->with(['category' => $category, 'products' => $products, 'grouped' => $grouped]);
+    public function brandCategoryProducts(Request $request, $company_slug, $category_slug, $category_id)
+    {
+        $company = Company::where('slug', $company_slug)->firstOrFail();
+        $category = Category::findOrFail($category_id);
+        $products = Product::where('status', '<>', 0)->where('company_id', $company->id)->where('category_id', $category_id)->paginate(18);
+        $category_list = DB::table('products')
+            ->join('categories', 'categories.id', '=', 'products.category_id')
+            ->select('categories.id', 'categories.slug', 'categories.title')
+            ->where('company_id', $company->id)
+            ->distinct()
+            ->get();
+
+        return view('products-brand-category')->with(['company' => $company, 'category' => $category, 'products' => $products, 'category_list' => $category_list]);
     }
 
     public function categoryProducts(Request $request, $lang, $category_slug, $category_id)
@@ -153,69 +124,7 @@ class ShopController extends Controller
 
     public function subCategoryProducts(Request $request, $category_slug, $subcategory_slug, $category_id)
     {
-        $category = Category::findOrFail($category_id);
-
-        if ($category->children && count($category->children) > 0) {
-            $ids = $category->children->pluck('id');
-        }
-
-        $ids[] = $category->id;
-
-        // Action operations
-        $actions = ['default' => 'id', 'popular' => 'views DESC', 'new' => 'updated_at DESC', 'high' => 'price DESC', 'low' => 'price'];
-        $sort = ($request->session()->has('action')) ? $actions[session('action')] : 'id';
-
-        if ($request->ajax() AND isset($request->action)) {
-            $request->session()->put('action', $request->action);
-        }
-
-        // Option operations
-        if ($request->ajax() AND isset($request->options_id)) {
-            $request->session()->put('options', $request->options_id);
-            $request->session()->put('category_id', $category->id);
-        }
-
-        if ($request->ajax() AND empty($request->action) AND empty($request->options_id) OR session('category_id') != $category->id) {
-            $request->session()->forget('options');
-        }
-
-        if ($request->session()->has('options')) {
-
-            $options_id = session('options');
-            $products = Product::where('status', '<>', 0)->whereIn('category_id', $ids)->orderByRaw($sort)
-                ->whereHas('options', function ($query) use ($options_id) {
-                    $query->whereIn('option_id', $options_id);
-                })->paginate(24);
-        }
-        else {
-            $products = Product::where('status', '<>', 0)->whereIn('category_id', $ids)->orderByRaw($sort)
-                ->paginate(24);
-        }
-
-        if ($request->ajax()) {
-            return response()->json(view('products-render', ['products' => $products])->render());
-        }
-
-        $options = DB::table('products')
-            ->join('product_option', 'products.id', '=', 'product_option.product_id')
-            ->join('options', 'options.id', '=', 'product_option.option_id')
-            ->select('options.id', 'options.slug', 'options.title', 'options.data')
-            ->whereIn('category_id', $ids)
-            // ->where('products.status', '<>', 0)
-            ->distinct()
-            ->get();
-
-        $grouped = $options->groupBy('data');
-
-        return view('products')->with(['category' => $category, 'products' => $products, 'grouped' => $grouped]);
-    }
-
-    public function brandProducts($company_slug)
-    {
-        $page = Page::where('slug', 'catalog')->firstOrFail();
-        $company = Company::where('slug', $company_slug)->first();
-
-        return view('products')->with(['page' => $page, 'products_title' => $page->title, 'products' => $company->products]);
+        return $this->categoryProducts($request, $subcategory_slug, $category_id);
     }
 
     public function product($lang, $product_slug)
@@ -225,9 +134,9 @@ class ShopController extends Controller
         $product_lang->save();
 
         $currency = Currency::where('lang', (($lang == 'ru') ? 'kz' : $lang))->first();
-        $products = ProductLang::search($product_lang->title)->where('lang', $lang)->whereNotIn('id', [$product_lang->id])->take(4)->get();
+        // $products = ProductLang::search($product_lang->title)->where('lang', $lang)->product()->categories()->whereNotIn('id', [$product_lang->id])->take(4)->get();
 
-        return view('product')->with(['product_lang' => $product_lang, 'products' => $products, 'currency' => $currency]);
+        return view('product')->with(['product_lang' => $product_lang, 'currency' => $currency]);
     }
 
     public function saveComment(Request $request)

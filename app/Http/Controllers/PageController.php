@@ -17,8 +17,9 @@ use App\Category;
 
 class PageController extends Controller
 {
-    public function index()
+    public function index($lang)
     {
+        app()->setLocale($lang);
         $lang = app()->getLocale();
         $slide_items = Slide::where('status', 1)->where('lang', $lang)->take(6)->get();
         $mode_recommended = Mode::where('slug', 'recommended')->first();

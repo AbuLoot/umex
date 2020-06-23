@@ -44,6 +44,7 @@ Route::group(['prefix' => '{lang}/admin', 'middleware' => ['auth', 'role:admin']
 Route::redirect('/', '/'.app()->getLocale());
 Route::redirect('/home', '/'.app()->getLocale().'/home');
 
+// Site
 Route::group(['prefix' => '{lang}'], function () {
 
     Auth::routes();
@@ -53,10 +54,10 @@ Route::group(['prefix' => '{lang}'], function () {
     Route::get('/', 'PageController@index');
     Route::get('i/catalog', 'PageController@catalog');
 
-        // News
-        Route::get('i/news', 'NewsController@news');
-        Route::get('news/{page}', 'NewsController@newsSingle');
-        Route::post('comment-news', 'NewsController@saveComment');
+    // News
+    Route::get('i/news', 'NewsController@news');
+    Route::get('news/{page}', 'NewsController@newsSingle');
+    Route::post('comment-news', 'NewsController@saveComment');
 
     Route::get('i/contacts', 'PageController@contacts');
     Route::get('i/{page}', 'PageController@page');
