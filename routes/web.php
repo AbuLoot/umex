@@ -52,7 +52,7 @@ Route::group(['prefix' => '{lang}'], function () {
 
     // Pages
     Route::get('/', 'PageController@index');
-    Route::get('i/catalog', 'PageController@catalog');
+    Route::get('i/catalog/{condition?}', 'PageController@catalog');
 
     // News
     Route::get('i/news', 'NewsController@news');

@@ -29,7 +29,9 @@
 
         <div class="property-pricing">
           <div class="property-price">{{ $product_lang->price_total }}₸</div>
-          <div class="sub-price">{{ $product_lang->price }}₸</div>
+          @if($product_lang->price > 0)
+            <div class="sub-price">{{ $product_lang->price }}₸</div>
+          @endif
         </div>
       </div>
     </div>

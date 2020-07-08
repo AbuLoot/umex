@@ -31,7 +31,7 @@ class PageController extends Controller
         return view('index', ['page' => $page, 'slide_items' => $slide_items, 'mode_recommended' => $mode_recommended, 'products_lang' => $products_lang, 'currency' => $currency, 'articles' => $articles]);
     }
 
-    public function catalog($lang)
+    public function catalog($lang, $condition = '')
     {
         $page = Page::where('slug', 'catalog')->where('lang', $lang)->first();
         $products_lang = ProductLang::where('lang', $lang)->paginate(15);

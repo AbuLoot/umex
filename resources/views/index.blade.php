@@ -26,7 +26,7 @@
                       <div class="home-slider-title">
                         <h3><a href="/{{ $slide_item->link }}">{{ $slide_item->title }}</a></h3>
                       </div>
-                      <a href="/{{ $slide_item->link }}" class="read-more">{{ __('Details') }} <i class="fa fa-angle-right"></i></a>
+                      <a href="/{{ $slide_item->link }}" class="button border read-more">{{ __('Details') }} <i class="fa fa-angle-right"></i></a>
                     </div>
                   </div>
                 </div>
@@ -77,8 +77,8 @@
                     <span>{{ trans('statuses.condition.'.$product->condition) }}</span>
                   </div>
                   <div class="listing-img-content">
-                    <span class="listing-price">{{ $product_lang->price }}₸</span>
-                    <span class="like-icon with-tip" data-tip-content="Add to Bookmarks"></span>
+                    <span class="listing-price">{{ $product_lang->price_total }}₸</span>
+                    <!-- <span class="like-icon with-tip" data-tip-content="Add to Bookmarks"></span> -->
                   </div>
                   <img src="/img/products/{{ $product->path.'/'.$product->image }}" alt="{{ $product_lang->title }}">
                 </a>

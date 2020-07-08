@@ -36,12 +36,15 @@
 <div class="container margin-bottom-50">
   <div class="row fullwidth-layout">
 
+    <div class="col-md-12 margin-bottom-25">
+      <a href="/{{ $lang }}/i/catalog/1" class="button @if(!Request::is($lang.'/i/catalog/1')) border @endif">{{ __('Rent') }}</a>
+      <a href="/{{ $lang }}/i/catalog/2" class="button @if(!Request::is($lang.'/i/catalog/2')) border @endif">{{ __('Sale') }}</a>
+    </div>
+
     <div class="col-md-12">
-
       <!-- Sorting / Layout Switcher -->
-      <div class="row margin-bottom-15">
-
-        <!-- <div class="col-md-6">
+      <!-- <div class="row margin-bottom-15-">
+        <div class="col-md-6">
           <div class="sort-by">
             <label>{{ __('Sort by') }}:</label>
 
@@ -53,29 +56,33 @@
               </select>
             </div>
           </div>
-        </div> -->
+        </div>
 
         <div class="col-md-6">
-          <!-- Layout Switcher -->
-          <!-- <div class="layout-switcher">
+          <div class="layout-switcher">
             <a href="#" class="grid-three"><i class="fa fa-th"></i></a>
             <a href="#" class="list"><i class="fa fa-th-list"></i></a>
-          </div> -->
+          </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Listings -->
       <div class="listings-container grid-layout-three">
+
         <?php $i = 1; ?>
+        <?php $condition = last(explode('/', Request::path())); ?>
         @foreach($products_lang as $product_lang)
+
+          @continue($condition == $product_lang->product->condition)
+
           <div class="listing-item">
             <a href="/{{ $lang }}/p/{{ $product_lang->slug }}" class="listing-img-container">
               <div class="listing-badges">
                 <span>{{ trans('statuses.condition.'.$product_lang->product->condition) }}</span>
               </div>
               <div class="listing-img-content">
-                <span class="listing-price">{{ $product_lang->price }}₸</span>
-                <span class="like-icon with-tip" data-tip-content="Add to Bookmarks"></span>
+                <span class="listing-price">{{ $product_lang->price_total }}₸</span>
+                <!-- <span class="like-icon with-tip" data-tip-content="Add to Bookmarks"></span> -->
               </div>
               <img src="/img/products/{{ $product_lang->product->path.'/'.$product_lang->product->image }}" alt="{{ $product_lang->title }}">
             </a>
