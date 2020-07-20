@@ -27,11 +27,11 @@
 
     <div class="form-group">
       <label for="title">Название</label>
-      <input type="text" class="form-control" id="title" name="title" minlength="5" maxlength="80" value="{{ (old('title')) ? old('title') : $product_lang->title }}" required>
+      <input type="text" class="form-control" id="title" name="title" minlength="5" maxlength="255" value="{{ (old('title')) ? old('title') : $product_lang->title }}" required>
     </div>
     <div class="form-group">
       <label for="slug">Slug</label>
-      <input type="text" class="form-control" id="slug" name="slug" minlength="2" maxlength="80" value="{{ (old('slug')) ? old('slug') : $product_lang->slug }}">
+      <input type="text" class="form-control" id="slug" name="slug" minlength="2" maxlength="255" value="{{ (old('slug')) ? old('slug') : $product_lang->slug }}">
     </div>
     <div class="form-group">
       <label for="meta_title">Мета заголовок</label>

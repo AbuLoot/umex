@@ -64,7 +64,7 @@ class CreateProductsTable extends Migration
             $table->string('slug');
             $table->string('title');
             $table->string('data');
-            $table->char('lang', 4);
+            $table->string('lang');
             $table->timestamps();
         });
 

@@ -75,6 +75,7 @@
 
           <!-- Listing Item -->
           @foreach($products as $product)
+          <?php dd($product); ?>
             <?php $product_lang = $product->products_lang->firstWhere('lang', $lang); ?>
             <div class="listing-item">
               <a href="/{{ $lang }}/p/{{ $product->slug }}" class="listing-img-container">

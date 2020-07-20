@@ -14,11 +14,11 @@ class Category extends Model
 
     public function products()
     {
-        return $this->belongsToMany('App\Product', 'product_category');
+        return $this->hasManyThrough('App\Product', 'App\Product');
     }
 
-    public function products_lang()
+    public function products_ext()
     {
-        return $this->hasManyThrough('App\ProductLang', 'App\Product');
+        return $this->belongsToMany('App\ProductExt', 'product_category');
     }
 }

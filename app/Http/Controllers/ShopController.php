@@ -134,7 +134,7 @@ class ShopController extends Controller
         $product_lang->save();
 
         $currency = Currency::where('lang', (($lang == 'ru') ? 'kz' : $lang))->first();
-        // $products = ProductLang::search($product_lang->title)->where('lang', $lang)->product()->categories()->whereNotIn('id', [$product_lang->id])->take(4)->get();
+        $products = ProductLang::search($product_lang->title)->where('lang', $lang)->whereNotIn('id', [$product_lang->id])->take(4)->get();
 
         return view('product')->with(['product_lang' => $product_lang, 'currency' => $currency]);
     }
@@ -145,7 +145,6 @@ class ShopController extends Controller
             'stars' => 'required|integer|between:1,5',
             'comment' => 'required|min:5|max:500',
         ]);
-
 
         $url = explode('/', URL::previous());
         $uri = explode('-', end($url));

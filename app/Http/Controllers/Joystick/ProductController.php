@@ -112,7 +112,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|min:2|max:80|unique:products_lang',
+            'title' => 'required|min:2|max:255|unique:products_lang',
             'company_id' => 'required|numeric',
             'barcode' => 'required',
             // 'images' => 'mimes:jpeg,jpg,png,svg,svgs,bmp,gif',
@@ -194,7 +194,7 @@ class ProductController extends Controller
     public function update(Request $request, $lang, $id)
     {
         $this->validate($request, [
-            'title' => 'required|min:2|max:80',
+            'title' => 'required|min:2|max:255',
             'company_id' => 'required|numeric',
             'barcode' => 'required',
         ]);
