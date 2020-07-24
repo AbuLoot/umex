@@ -1,4 +1,22 @@
 
+        <div class="property-main-features padding-top-30">
+          <table class="table table-striped">
+            <tbody>
+              @foreach ($product_lang->product->options as $option)
+                <?php $data = unserialize($option->data); ?>
+                @unless (in_array($data[$lang]['data'], ['Год постройки', 'Year of construction']))
+                  <?php $titles = unserialize($option->title); ?>
+                  <tr>
+                    <th scope="row">{{ $data[$lang]['data'] }}</th>
+                    <td>{{ $titles[$lang]['title'] }}</td>
+                  </tr>
+                @endunless
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+
+        
         <!-- Similar Listings Container -->
         @if ($products->isNotEmpty())
           <h3 class="desc-headline no-border margin-bottom-35 margin-top-60">{{ __('Similar Properties') }}</h3>

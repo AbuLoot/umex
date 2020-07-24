@@ -26,7 +26,7 @@
                       <div class="home-slider-title">
                         <h3><a href="/{{ $slide_item->link }}">{{ $slide_item->title }}</a></h3>
                       </div>
-                      <a href="/{{ $slide_item->link }}" class="button border read-more">{{ __('Details') }} <i class="fa fa-angle-right"></i></a>
+                      <a href="/{{ $slide_item->link }}" class="button border-yellow btn-yellow read-more-">{{ __('Details') }} <i class="fa fa-angle-right"></i></a>
                     </div>
                   </div>
                 </div>
@@ -77,7 +77,7 @@
                     <span>{{ trans('statuses.condition.'.$product->condition) }}</span>
                   </div>
                   <div class="listing-img-content">
-                    <span class="listing-price">{{ $product_lang->price_total }}₸</span>
+                    <span class="listing-price">{{ number_format($product_lang->price_total, 0, ' ', ' ') }}₸</span>
                     <!-- <span class="like-icon with-tip" data-tip-content="Add to Bookmarks"></span> -->
                   </div>
                   <img src="/img/products/{{ $product->path.'/'.$product->image }}" alt="{{ $product_lang->title }}">
@@ -99,9 +99,6 @@
                       @endif
                     @endforeach
                   </ul>
-                  <div class="listing-footer">
-                    <a href="#"><i class="fa fa-bank"></i> {{ $product->company->title }}</a>
-                  </div>
                 </div>
               </div>
             </div>
@@ -148,31 +145,34 @@
       {!! $advantages->content !!}
     @endif
 
-    <!-- Fullwidth Section -->
-    <section class="fullwidth margin-top-95 margin-bottom-0">
+    <?php $news = $pages->where('lang', $lang)->firstWhere('slug', 'news'); ?>
+    @unless($news == null)
+      <!-- Fullwidth Section -->
+      <section class="fullwidth margin-top-95 margin-bottom-0">
 
-      <!-- Box Headline -->
-      <h3 class="headline-box">{{ $pages->firstWhere('slug', 'news')->title }}</h3>
+        <!-- Box Headline -->
+        <h3 class="headline-box">{{ $pages->firstWhere('slug', 'news')->title }}</h3>
 
-      <div class="container">
-        <div class="row">
-          @foreach ($articles as $article)
-            <div class="col-sm-6 col-md-4">
-              <div class="blog-post">
-                <div class="post-content">
-                  <h3><a href="/{{ $lang }}/news/{{ $article->slug }}">{{ $article->title }}</a></h3>
-                  {!! Str::limit($article->content, 130) !!}
-                  <a href="/{{ $lang }}/news/{{ $article->slug }}" class="read-more">{{ __('Read More') }} <i class="fa fa-angle-right"></i></a>
+        <div class="container">
+          <div class="row">
+            @foreach ($articles as $article)
+              <div class="col-sm-6 col-md-4">
+                <div class="blog-post">
+                  <div class="post-content">
+                    <h3><a href="/{{ $lang }}/news/{{ $article->slug }}">{{ $article->title }}</a></h3>
+                    {!! Str::limit($article->content, 130) !!}
+                    <a href="/{{ $lang }}/news/{{ $article->slug }}" class="read-more">{{ __('Read More') }} <i class="fa fa-angle-right"></i></a>
+                  </div>
                 </div>
               </div>
+            @endforeach
+            <div class="col-md-12 text-center margin-top-25">
+              <a href="/{{ $lang }}/i/{{ $pages->firstWhere('slug', 'news')->slug }}" class="button border">{{ $pages->firstWhere('slug', 'news')->title }}</a>
             </div>
-          @endforeach
-          <div class="col-md-12 text-center margin-top-25">
-            <a href="/{{ $lang }}/i/{{ $pages->firstWhere('slug', 'news')->slug }}" class="button border">{{ $pages->firstWhere('slug', 'news')->title }}</a>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    @endunless
 
 @endsection
 

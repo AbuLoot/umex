@@ -6,7 +6,7 @@
             <span>{{ trans('statuses.condition.'.$product_lang->product->condition) }}</span>
           </div>
           <div class="listing-img-content">
-            <span class="listing-price">{{ $product_lang->price }}₸</span>
+            <span class="listing-price">{{ number_format($product_lang->price_total, 0, ' ', ' ') }}₸</span>
             <span class="like-icon with-tip" data-tip-content="Add to Bookmarks"></span>
           </div>
           <img src="/img/products/{{ $product_lang->product->path.'/'.$product_lang->product->image }}" alt="{{ $product_lang->title }}">
@@ -28,9 +28,6 @@
               @endif
             @endforeach
           </ul>
-          <div class="listing-footer">
-            <a href="#"><i class="fa fa-bank"></i> {{ $product_lang->product->company->title }}</a>
-          </div>
         </div>
       </div>
     @endforeach

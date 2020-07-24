@@ -28,9 +28,9 @@
         </div>
 
         <div class="property-pricing">
-          <div class="property-price">{{ $product_lang->price_total }}₸</div>
+          <div class="property-price">{{ number_format($product_lang->price_total, 0, ' ', ' ') }}₸</div>
           @if($product_lang->price > 0)
-            <div class="sub-price">{{ $product_lang->price }}₸</div>
+            <div class="sub-price">{{ number_format($product_lang->price, 0, ' ', ' ') }}₸</div>
           @endif
         </div>
       </div>
@@ -90,17 +90,38 @@
               <li>{{ $data[$lang]['data'] }} <span>{{ $titles[$lang]['title'] }}</span></li>
             @endunless
           @endforeach
-        </ul>
+        </ul><br>
 
         <!-- Details -->
-        <h3 class="desc-headline">{{ __('Details') }}</h3>
-        <ul class="property-features margin-top-0 padding-h-30">
-          <li>{{ __('Number of Object') }}: <span>{{ $product_lang->product->barcode }}</span></li>
-          <li>{{ __('Region') }}: <span>@foreach ($product_lang->product->categories->where('lang', $lang) as $category) {{ $category->title }} @endforeach</span></li>
-          <li>{{ __('Company') }}:<br> <span>{{ $product_lang->product->company->title }}</span></li>
-          <li>{{ __('Area Total') }}: <span>{{ $product_lang->product->capacity }}</span></li>
-          <li>{{ __('Area') }}: <span>{{ $product_lang->product->area }}</span></li>
-        </ul>
+        <h3 class="desc-headline- margin-bottom-30">{{ __('Details') }}</h3>
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <th scope="row">{{ __('Number of Object') }}: </th>
+              <td><span>{{ $product_lang->product->barcode }}</span></td>
+            </tr>
+            <tr>
+              <th scope="row">{{ __('Region') }}: </th>
+              <td><span>@foreach ($product_lang->product->categories->where('lang', $lang) as $category) {{ $category->title }} @endforeach</span></td>
+            </tr>
+            @unless($product_lang->product->company->slug == 'no-name')
+            <tr>
+              <th scope="row">{{ __('Company') }}:</th>
+              <td> <span>{{ $product_lang->product->company->title }}</span></td>
+            </tr>
+            @endunless
+            @if(!empty($product_lang->product->capacity))
+              <tr>
+                <th scope="row">{{ __('Area Total') }}: </th>
+                <td><span>{{ $product_lang->product->capacity }}</span></td>
+              </tr>
+            @endif
+            <tr>
+              <th scope="row">{{ __('Area') }}:</th>
+              <td><span>{{ $product_lang->product->area }}</span></td>
+            </tr>
+          </tbody>
+        </table>
 
         <!-- Description -->
         @if ($product_lang->description != NULL)
@@ -126,7 +147,7 @@
             <form action="/{{ $lang }}/send-app" name="contact" method="post">
               @csrf
               <h3>{{ __('Booking form') }}</h3>
-              <input type="email" name="email" id="email" placeholder="{{ __('Your Email') }}" required>
+              <input type="name" name="name" id="name" placeholder="{{ __('Your Name') }}" required>
               <input type="tel" pattern="(\+?\d[- .]*){7,13}" name="phone" minlength="5" maxlength="20" placeholder="{{ __('Your Phone') }}" required>
               <textarea name="message" autocomplete="off" required>{{ __('Text form') }} {{ $product_lang->product->barcode }}]</textarea>
               <button class="button fullwidth margin-top-5">{{ __('Send Message') }}</button>

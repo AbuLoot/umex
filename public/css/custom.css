@@ -1,13 +1,17 @@
 .padding-h-30 {
   padding: 0 30px;
 }
-/*a.button.border {
-  color: #fff;
-  border: 1px solid #ffffff;
+a.button.border-yellow {
+  color: #f0c330;
+  border: 1px solid #f0c330;
+  background-color: transparent;
 }
-.home-slider-desc .read-more i {
-  color: #fff;
-}*/
+/*a.button.yellow-btn,*/
+a.button.btn-yellow:hover {
+  color: #000;
+  background-color: #f0c330;
+}
+
 /* ------------------------------------------------------------------------ */
 /*  FIXED BUTTON
 /* ------------------------------------------------------------------------ */
