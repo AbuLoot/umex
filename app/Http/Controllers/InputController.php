@@ -72,9 +72,11 @@ class InputController extends Controller
             'phone' => 'required|min:5',
         ]);
 
+        $email = ($request->email != '') ? $request->email : '';
+
         $app = new App;
         $app->name = $request->name;
-        // $app->email = $request->email;
+        $app->email = $email;
         $app->phone = $request->phone;
         $app->message = $request->message;
         $app->save();
@@ -86,7 +88,7 @@ class InputController extends Controller
         $content = "<h2>UMEX REAL ESTATE</h2>";
         $content .= "<b>Имя: $request->name</b><br>";
         $content .= "<b>Номер: $request->phone</b><br>";
-        // $content .= "<b>Email: $request->email</b><br>";
+        $content .= "<b>Email: $email</b><br>";
         $content .= "<b>Текст: $request->message</b><br>";
         $content .= "<b>Дата: " . date('Y-m-d') . "</b><br>";
         $content .= "<b>Время: " . date('G:i') . "</b>";

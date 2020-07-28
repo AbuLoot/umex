@@ -116,10 +116,12 @@
                 <td><span>{{ $product_lang->product->capacity }}</span></td>
               </tr>
             @endif
-            <tr>
-              <th scope="row">{{ __('Area') }}:</th>
-              <td><span>{{ $product_lang->product->area }}</span></td>
-            </tr>
+            @if(!empty($product_lang->product->area))
+              <tr>
+                <th scope="row">{{ __('Area') }}:</th>
+                <td><span>{{ $product_lang->product->area }}</span></td>
+              </tr>
+            @endif
           </tbody>
         </table>
 

@@ -42,17 +42,29 @@
     <!-- Contact Details -->
     <div class="col-md-4">
 
-      <h4 class="headline margin-bottom-30">Find Us There</h4>
+      <h4 class="headline margin-bottom-30">{{ __('Contact Us') }}</h4>
+
+      <?php
+        $contacts = $section->firstWhere('slug', 'contacts');
+        $data_phones = unserialize($contacts->data_1);
+        $phones = explode('/', $data_phones['value']);
+        $data_email = unserialize($contacts->data_2);
+        $data_address = unserialize($contacts->data_3);
+      ?>
 
       <!-- Contact Details -->
       <div class="sidebar-textbox">
-        <p>Collaboratively administrate turnkey channels whereas virtual e-tailers. Objectively seize scalable metrics whereas proactive e-services.</p>
+        <p>{{ $data_address['value'] }}</p>
 
         <ul class="contact-details">
-          <li><i class="im im-icon-Phone-2"></i> <strong>Phone:</strong> <span>(123) 123-456 </span></li>
-          <li><i class="im im-icon-Fax"></i> <strong>Fax:</strong> <span>(123) 123-456 </span></li>
-          <li><i class="im im-icon-Globe"></i> <strong>Web:</strong> <span><a href="#">www.example.com</a></span></li>
-          <li><i class="im im-icon-Envelope"></i> <strong>E-Mail:</strong> <span><a href="#">office@example.com</a></span></li>
+          <li><i class="im im-icon-Phone-2"></i>
+            <strong>{{ $data_phones['key'] }}:</strong>
+            @foreach ($phones as $phone)
+              <span><a href="tel:{{ $phone }}">{{ $phone }}</a></span><br>
+            @endforeach 
+          </li>
+          <li><i class="im im-icon-Globe"></i> <strong>Web:</strong> <span><a href="http://umex.kz">www.umex.kz</a></span></li>
+          <li><i class="im im-icon-Envelope"></i> <strong>E-Mail:</strong> <span><a href="mailto:{{ $data_email['value'] }}">{{ $data_email['value'] }}</a></span></li>
         </ul>
       </div>
 
@@ -62,35 +74,35 @@
     <div class="col-md-8">
 
       <section id="contact">
-        <h4 class="headline margin-bottom-35">Contact Form</h4>
+        <h4 class="headline margin-bottom-35">{{ __('Contact Form') }}</h4>
 
         <div id="contact-message"></div> 
 
-          <form method="post" action="contact.php" name="contactform" id="contactform" autocomplete="on">
-
+          <form method="post" action="/{{ $lang }}/send-app" name="contactform" id="contactform" autocomplete="on">
+            @csrf
             <div class="row">
               <div class="col-md-6">
                 <div>
-                  <input name="name" type="text" id="name" placeholder="Your Name" required="required" />
+                  <input name="name" type="text" id="name" placeholder="{{ __('Your Name') }}" required="required" />
                 </div>
               </div>
 
               <div class="col-md-6">
                 <div>
-                  <input name="email" type="email" id="email" placeholder="Email Address" pattern="^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$" required="required" />
+                  <input type="tel" pattern="(\+?\d[- .]*){7,13}" name="phone" minlength="5" maxlength="20" placeholder="{{ __('Your Phone') }}" required>
                 </div>
               </div>
             </div>
 
             <div>
-              <input name="subject" type="text" id="subject" placeholder="Subject" required="required" />
+              <input name="email" type="email" id="email" placeholder="{{ __('Your Email') }}" pattern="^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$" required="required" />
             </div>
 
             <div>
-              <textarea name="comments" cols="40" rows="3" id="comments" placeholder="Message" spellcheck="true" required="required"></textarea>
+              <textarea name="comments" cols="40" rows="3" id="comments" placeholder="{{ __('Your Message') }}" spellcheck="true" required="required"></textarea>
             </div>
 
-            <input type="submit" class="submit button" id="submit" value="Submit Message" />
+            <input type="submit" class="submit button" id="submit" value="{{ __('Send Message') }}" />
 
           </form>
       </section>
