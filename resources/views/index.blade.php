@@ -116,7 +116,7 @@
     </section>
 
     <!-- For Traveler  -->
-    <section class="parallax margin-bottom-70"
+    <section class="parallax margin-bottom-70-"
       data-background="/img/nur-sultan.jpg"
       data-color="#36383e"
       data-color-opacity="0.5"
@@ -137,7 +137,6 @@
         </div>
       </div>
     </section>
-
 
     <!-- Advantages Section -->
     <?php $advantages = $section->firstWhere('slug', 'advantages'); ?>

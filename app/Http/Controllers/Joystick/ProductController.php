@@ -309,6 +309,7 @@ class ProductController extends Controller
     public function uploadImages($request, $dirName, $images = [], $product)
     {
         $order = (!empty($images)) ? count($images) : 1;
+        $order = time() + 1;
 
         foreach ($request->file('images') as $key => $image)
         {

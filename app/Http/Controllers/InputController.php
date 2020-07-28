@@ -95,8 +95,8 @@ class InputController extends Controller
                    "MIME-Version: 1.0" . "\r\n" . 
                    "Content-type: text/html; charset=UTF-8" . "\r\n";
 
-        // Send the email xG9$T7%AD
-        if (mail('issayev.adilet@gmail.com', $subject, $content, $headers)) {
+        // Send the email
+        if (mail('realty@umex.kz issayev.adilet@gmail.com', $subject, $content, $headers)) {
             $status = 'alert-success';
             $message = 'Ваша заявка принята. Спасибо!';
         }
