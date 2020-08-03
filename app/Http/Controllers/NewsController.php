@@ -15,7 +15,7 @@ class NewsController extends Controller
     public function news($lang)
     {
         $page = Page::where('slug', 'news')->where('lang', $lang)->first();
-        $articles = Article::orderBy('created_at')->where('lang', $lang)->paginate(15);
+        $articles = Article::orderBy('created_at', 'desc')->where('lang', $lang)->paginate(15);
 
         return view('news', ['page' => $page, 'articles' => $articles]);
     }

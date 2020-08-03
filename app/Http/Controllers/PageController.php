@@ -26,7 +26,7 @@ class PageController extends Controller
         $page = Page::where('slug', '/')->where('lang', $lang)->first();
         $products_lang = ProductLang::where('lang', $lang)->get();
         $currency = Currency::where('lang', (($lang == 'ru') ? 'kz' : $lang))->first();
-        $articles = Article::orderBy('created_at')->where('lang', $lang)->take(3)->get();
+        $articles = Article::orderBy('created_at', 'desc')->where('lang', $lang)->take(3)->get();
 
         return view('index', ['page' => $page, 'slide_items' => $slide_items, 'mode_recommended' => $mode_recommended, 'products_lang' => $products_lang, 'currency' => $currency, 'articles' => $articles]);
     }
