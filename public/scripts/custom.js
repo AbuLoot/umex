@@ -700,7 +700,7 @@ $(document).ready(function(){
 		centerPadding: '0',
 		slidesToShow: 1,
 		autoplay: true,
-		autoplaySpeed: 1500,
+		autoplaySpeed: 2500,
 		responsive: [
 			{
 			  breakpoint: 1367,
