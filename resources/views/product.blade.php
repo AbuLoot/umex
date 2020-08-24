@@ -22,7 +22,11 @@
           <h2>{{ $product_lang->title }} <span class="property-badge">{{ trans('statuses.condition.'.$product_lang->product->condition) }}</span></h2>
           <span>
             <a href="#location" class="listing-address">
-              <i class="fa fa-map-marker"></i> {{ $product_lang->characteristic }}
+              <i class="fa fa-map-marker"></i>
+              @foreach ($product_lang->product->categories->where('lang', $lang) as $category)
+                {{ $category->title }},
+              @endforeach
+              {{ $product_lang->characteristic }}
             </a>
           </span>
         </div>

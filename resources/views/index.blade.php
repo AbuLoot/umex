@@ -87,7 +87,11 @@
                   <div class="listing-title">
                     <h4><a href="/{{ $lang }}/p/{{ $product_lang->slug }}">{{ $product_lang->title }}</a></h4>
                     <a href="#" class="listing-address popup-gmaps">
-                      <i class="fa fa-map-marker"></i> {{ $product_lang->characteristic }}
+                      <i class="fa fa-map-marker"></i>
+                      @foreach ($product_lang->product->categories->where('lang', $lang) as $category)
+                        {{ $category->title }},
+                      @endforeach
+                      {{ $product_lang->characteristic }}
                     </a>
                   </div>
                   <ul class="listing-features">
